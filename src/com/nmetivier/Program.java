@@ -1,5 +1,7 @@
 package com.nmetivier;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -34,173 +36,68 @@ import java.util.Scanner;
 public class Program {
 
 	public static void main(String[] args) {
-
-		// Tableau en 2D qui représente mes utilisateurs.
-		Object[][] informationsUtilisateur = new Object[2][4];
-
-		// Je créé mon mon claver.
-		Scanner clavier = new Scanner(System.in);
-
-		// Je déclarre sans initialiser 3 variables du même type.
-		String nom, prenom, dateDeNaissance;
-
-		// Je fais une boucle pour créer les 2 utilisateurs.
-		// On connait les bornes de la boucle. [0;2[
-		for (int utilisateursCrees = 0; utilisateursCrees < 2; utilisateursCrees++) {
-			prenom = recupererPrenom(clavier);
-			nom = recupererNom(clavier);
-			dateDeNaissance = recupererDateDeNaissance(clavier);
-
-			String dateAujourdHui = "15/03/2018";
-
-			// On calcule l'age.
-			byte age = calculerAge(dateAujourdHui, dateDeNaissance);
-
-			// On affiche la majorité de la personne.
-			verifierMajorite(age, nom, prenom);
-
-			// On initialise le tableau en fonction de l'utilisateur.
-			informationsUtilisateur[utilisateursCrees][0] = nom;
-			informationsUtilisateur[utilisateursCrees][1] = prenom;
-			informationsUtilisateur[utilisateursCrees][2] = dateDeNaissance;
-			informationsUtilisateur[utilisateursCrees][3] = age;
-
-		}
-
-		// On affiche le tableau en 2 dimensions.
-		afficherTableau2D(informationsUtilisateur);
-
+		showMenu();
 	}
 
 	/**
-	 * Affiche un tableau en 2 dimensions.
 	 * 
-	 * @param informationsUtilisateur
-	 *            Tableau en 2 dimensions.
 	 */
-	private static void afficherTableau2D(Object[][] informationsUtilisateur) {
-		// Pour chaque ligne de mon tableau...
-		for (int index = 0; index < informationsUtilisateur.length; index++) {
-			// Pour chaque colonne de mon tableau...
-			for (Object information : informationsUtilisateur[index]) {
-				// J'affiche le contenu de la cellule.
-				System.out.println(information);
+	private static void showMenu() {
+		try {
+			while (true) {
+				try {
+					Runtime.getRuntime().exec("cls");
+				} catch (Exception error) {
+					
+				}
+				System.out.println("ACTIVE CONSULTING ING");
+				System.out.println("=====================\n");
+				System.out.println("[A]jouter un(e) étudiant(e).");
+				System.out.println("[M]odifier un(e) étudiant(e).");
+				System.out.println("[S]upprimer un(e) étudiant(e).");
+				System.out.println("[V]oir les étudiants.");
+				System.out.println("[F]aire l'appel des étudiants.");
+				System.out.println("[Q]uitter le programme.\n");
+				
+				System.out.print("Votre choix : ");
+				
+				Scanner keyBoard = new Scanner(System.in);
+				String userChoiceMenu = keyBoard.nextLine();
+				try {
+					switch (userChoiceMenu.toUpperCase()) {
+					case "A":
+						Student.addNewStudent();
+						break;
+					case "M":
+						Student.modifyStudent();
+						break;
+
+					case "S":
+						Student.deleteStudent();
+						break;
+
+					case "F":
+
+						break;
+
+					case "V":
+						Student.showStudents();
+						break;
+
+					case "Q":
+						System.exit(0);
+						break;
+					}
+					
+				} catch (NullPointerException error) {
+					System.out.println("[ERREUR] Votre choix n'est pas correct.");
+				} catch (Exception error) {
+					System.out.println("Une erreur non gérée est survenue : ");
+					error.printStackTrace();
+				}
 			}
-		}
-	}
-
-	/**
-	 * Vérifie la majorité d'une personne.
-	 * 
-	 * @param age
-	 *            Age de la persone.
-	 * @param nom
-	 *            Nom de la personne.
-	 * @param prenom
-	 *            Prénom de la personne.
-	 */
-	private static void verifierMajorite(byte age, String nom, String prenom) {
-		// Si l'age est inférieur à 18...
-		if (age < 18) {
-			System.out.println(nom + " " + prenom + " n'est pas majeur.");
-		} else { // Sinon....
-			System.out.println(nom + " " + prenom + " est majeur.");
+		} catch (Exception error) {
+			error.printStackTrace();
 		}
 	}
-
-	/**
-	 * Calcule la difference d'années entre deux date.
-	 * 
-	 * @param dateAujourdHuiCopie
-	 *            Date d'aujourd'hui.
-	 * @param dateDeNaissanceCopie
-	 *            Date d'anniversaire.
-	 * @return Age calculé.
-	 */
-	private static byte calculerAge(String dateAujourdHuiCopie, String dateDeNaissanceCopie) {
-		// On découpe la date de naissance dans un tableau...
-		// ... puis on récupère l'année grace à l'index dans le tableau...
-		// ... enfin on convertis le resultat en Short.
-		short anneeDeNaissance = Short.parseShort(dateDeNaissanceCopie.split("/")[2]);
-		short anneeDAujourdHui = Short.parseShort(dateAujourdHuiCopie.split("/")[2]);
-
-		// On renvoie le calcul convertit en byte pour que le type retourné
-		// correspondent au type de la fonction.
-		return (byte) (anneeDAujourdHui - anneeDeNaissance);
-	}
-
-	/**
-	 * 
-	 * @param clavierCopie
-	 * @return
-	 */
-	private static String recupererDateDeNaissance(Scanner clavierCopie) {
-		String date;
-		System.out.println("Entrer votre date de naissance (XX/XX/XXXX) : ");
-		date = clavierCopie.nextLine();
-		return date;
-	}
-
-	/**
-	 * Premet de récupérer un nom.
-	 * 
-	 * @param clavierCopie
-	 *            Objet de type Scanner.
-	 * @return Nom
-	 */
-	private static String recupererNom(Scanner clavierCopie) {
-		// Vérifier qu'un prénom est au bon format.
-		boolean verificateur = false;
-		String lastName;
-
-		// On doit au moins rentrer une fois dans la boucle.
-		// On boucle tant que le vérificateur est faux.
-		do {
-			System.out.print("Entrez votre nom : ");
-
-			// Je demande à l'utilisateur de saisir son prénom.
-			lastName = clavierCopie.nextLine();
-
-			// Si le prénom est composé d'au moins 3 lettres...
-			if (lastName.length() >= 3) {
-				// On vérifie que le prénom ne contient que des lettres.
-				verificateur = lastName.chars().allMatch(Character::isLetter);
-			}
-
-		} while (verificateur != true);
-
-		return lastName;
-	}
-
-	/**
-	 * Récupérer le prénom d'une personne.
-	 * 
-	 * @param clavierCopie
-	 *            Object de type Scanner.
-	 * @return Prénom de l'utilisateur.
-	 */
-	static String recupererPrenom(Scanner clavierCopie) {
-		// Vérifier qu'un prénom est au bon format.
-		boolean verificateur = false;
-		String firstName;
-
-		// On doit au moins rentrer une fois dans la boucle.
-		// On boucle tant que le vérificateur est faux.
-		do {
-			System.out.print("Entrez votre prénom : ");
-
-			// Je demande à l'utilisateur de saisir son prénom.
-			firstName = clavierCopie.nextLine();
-
-			// Si le prénom est composé d'au moins 3 lettres...
-			if (firstName.length() >= 3) {
-				// On vérifie que le prénom ne contient que des lettres.
-				verificateur = firstName.chars().allMatch(Character::isLetter);
-			}
-
-		} while (verificateur != true);
-
-		return firstName;
-	}
-
 }
