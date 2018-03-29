@@ -17,13 +17,15 @@ import java.util.Scanner;
  *
  */
 public class Student {
+	
+	//region Déclaration des variables.
 	/**
 	 * Liste des étudiants.
 	 */
 	static ArrayList<Object[]> studentsList = new ArrayList<Object[]>();
 
 	/**
-	 * 
+	 * Date d'aujourd'hui.
 	 */
 	private static final Date CURRENT_DATE = new Date(System.currentTimeMillis());
 
@@ -33,14 +35,18 @@ public class Student {
 	private static short studentCreated;
 
 	/**
-	 * 
+	 * Représente le clavier.
 	 */
 	private static Scanner keyBoard;
 
+	//endregion
+	
+	
+	//region Délaration des fonctions.
 	/**
-	 * 
-	 * @param birthDay
-	 * @return
+	 * Permet de calculer l'age de l'étudiant(e).
+	 * @param birthDay Date d'anniversaire.
+	 * @return Age de l'étudiant(e).
 	 */
 	private static short setAge(Date birthDay) {
 		long difference = CURRENT_DATE.getTime() - birthDay.getTime();
@@ -49,7 +55,8 @@ public class Student {
 	}
 
 	/**
-	 * 
+	 * Permet de définir la date de naissance d'un(e) étudiant(e).
+	 * @param security Flag forcant à rentrer une valeur non nulle au clavier.
 	 * @return
 	 */
 	private static Date setBirthDay(boolean security) {
@@ -87,8 +94,9 @@ public class Student {
 	}
 
 	/**
-	 * 
-	 * @return
+	 * Premet de définir le nom d'un(e) étudiant(e).
+	 * @param security Flag forcant à rentrer une valeur non nulle au clavier.
+	 * @return Nom de l'étudiant(e).
 	 */
 	private static String setLastName(boolean security) {
 		boolean checker = false;
@@ -116,8 +124,9 @@ public class Student {
 	}
 
 	/**
-	 * 
-	 * @return
+	 * Permet de définir le prénom d'un(e) étudiant(e).
+	 * @param security Flag forcant à rentrer une valeur non nulle au clavier.
+	 * @return Prénom de l'étudiant(e).
 	 */
 	private static String setFirstName(boolean security) {
 		boolean checker = false;
@@ -145,7 +154,7 @@ public class Student {
 	}
 
 	/**
-	 * Ajouter un(e) nouvel(le) étudiant(e).
+	 * Permet d'ajouter un(e) nouvel(le) étudiant(e).
 	 */
 	static void addNewStudent() {
 		// Prénom de l'étudiant.
@@ -166,7 +175,7 @@ public class Student {
 	}
 
 	/**
-	 * 
+	 * Permet de modifier un(e) étudiant(e).
 	 */
 	static void modifyStudent() {
 		showStudents();
@@ -182,7 +191,6 @@ public class Student {
 				if (idStudentToModify > 0) {
 					try {
 						studentToModify = studentsList.get(idStudentToModify - 1);
-						break;
 					} catch (IndexOutOfBoundsException e) {
 						System.out.println("Attention ! L'index rentré ne correspond à aucun ID d'étudiant(e).");
 						System.out.println("Vous vouliez peut-être modifier le (la) dernier(e) étudiant(e) ?");
@@ -228,7 +236,7 @@ public class Student {
 									Date newDate = setBirthDay(false);
 
 									try {
-										if (newDate.toString().equals(null)) {
+										if (!newDate.toString().equals(null)) {
 											studentToModify[3] = newDate;
 										}
 									} catch (NullPointerException e) {
@@ -248,7 +256,6 @@ public class Student {
 									}
 									break;
 								}
-								System.out.println("\nICI\n");
 								index++;
 							}
 							studentsList.set(idStudentToModify - 1, studentToModify);
@@ -267,11 +274,22 @@ public class Student {
 		}
 	}
 
+	/**
+	 * Permet d'afficher tout les étudiants.
+	 */
 	static void showStudents() {
 		if (studentsList.size() > 0) {
 			Iterator<Object[]> iteraorForStudentList = studentsList.iterator();
 			int data = 0;
 			while (iteraorForStudentList.hasNext()) {
+				Object[] etudiant = iteraorForStudentList.next();
+				for (Object info : etudiant) {
+					System.out.println(info);
+				}
+				
+				
+				
+				
 				data = 0;
 				for (Object studentData : iteraorForStudentList.next()) {
 					switch (data) {
@@ -299,30 +317,39 @@ public class Student {
 	}
 
 	/**
-	 * 
-	 * @param index
+	 * Permet d'afficher un(e) étudiant(e) spécifique.
+	 * @param index	ID de l'étudiant(e) à afficher.
 	 */
 	private static void showStudent(int index) {
-		Object[] student = studentsList.get(index);
+		Object[] student = null;
+		try {
+			student = studentsList.get(index);
+		} catch (IndexOutOfBoundsException errorLevel1) {
+			try {
+				student = studentsList.get(index-1);
+			} catch (IndexOutOfBoundsException errorLevel2) {
+				System.out.println("Cet ID d'étudiant n'existe pas.");
+				short i = Short.parseShort("1f");
+			}
+		}
 		System.out.println(String.format("[%s]\t%s %s - %s - (%s ans)", student[0], student[1], student[2], student[3],
 				student[4]));
 	}
 
+	/**
+	 * Permet de supprimer un étudiant.
+	 */
 	public static void deleteStudent() {
 		showStudents();
-
 		int idStudentToModify;
 		Object[] studentToModify = null;
-
 		if (studentsList.size() > 0) {
 			do {
 				System.out.print("ID de l'étudiant(e) à modifier : ");
-
 				idStudentToModify = keyBoard.nextInt();
 				if (idStudentToModify > 0) {
 					try {
 						studentToModify = studentsList.get(idStudentToModify - 1);
-						break;
 					} catch (IndexOutOfBoundsException e) {
 						System.out.println("Attention ! L'index rentré ne correspond à aucun ID d'étudiant(e).");
 						System.out.println("Vous vouliez peut-être modifier le (la) dernier(e) étudiant(e) ?");
@@ -336,6 +363,8 @@ public class Student {
 						String userChoice = keyBoard.nextLine();
 						if (userChoice.toUpperCase().equals("O")) {
 							studentsList.remove(idStudentToModify - 1);
+							System.out.println("L'étudiant(e) a été suprimé(e).");
+							return;
 						} else if (userChoice.toUpperCase().equals("N")) {
 							break;
 						}
@@ -349,6 +378,6 @@ public class Student {
 		}
 		
 	}
-
+	//endregion
 
 }
