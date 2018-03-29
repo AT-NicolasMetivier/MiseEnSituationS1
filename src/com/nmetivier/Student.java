@@ -41,6 +41,76 @@ public class Student {
 
 	//endregion
 	
+	//region Déclaration des propriétées d'un(e) étudiant(e).
+
+	private byte id;
+	private String firstName;
+	private String lastName;
+	private Date birthDay;
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public byte getId() {
+		return this.id;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public String getFirstName() {
+		return this.firstName;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public String getLastName() {
+		return this.lastName;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public Date getBirthDay() {
+		return this.birthDay;
+	}
+	
+	/**
+	 * 
+	 * @param value
+	 */
+	public void setFirstName(String value) {
+		this.firstName = value;
+	}
+	
+	/**
+	 * 
+	 * @param value
+	 */
+	public void setLastName(String value) {
+		this.lastName = value;
+	}
+	
+	/**
+	 * 
+	 * @param value
+	 */
+	public void setBirthDay(Date value) {
+		this.birthDay = value;
+	}
+	
+	//endregion
+	/**
+	 * 
+	 */
+	public Student() {
+		
+	}
 	
 	//region Délaration des fonctions.
 	/**
@@ -170,6 +240,7 @@ public class Student {
 		short age = setAge(birthDay);
 
 		studentCreated++;
+		
 		studentsList.add(new Object[] { studentCreated, lastName.toUpperCase(), firstName, birthDay, age });
 
 	}

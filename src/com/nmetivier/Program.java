@@ -5,20 +5,6 @@ import java.util.List;
 import java.util.Scanner;
 
 /**
- * Première classe du programme. TP qui reprend : L'initialisation des variables
- * (tout type) L'utilisation de tableaux La déclaration de méthodes (fonctions)
- * (avec arguments) L'extraction de code pour avoir des méthodes. (Selection de
- * code + Refactor/Extract Method) L'utilisation du clavier Les conditions Les
- * boucles
- * 
- * Pour générer le programme en exécutable : File/Export Runnable JAR File
- * Launch Application = Classe contenant le point d'entrée (public stativ void
- * main(String[] args) {) Export Destination = Dossier ou va etre créé
- * l'exécutable + nom de l'éxécutable.
- *
- * Pour éxécuter le fichier généré : Sous MICROSOFT Windows: Ouvrir l'invite de
- * commande. ([Win]+[R]) Ecrire "cmd" Appuyer sur Entrée Ecrire "java -jar "
- * Sélectionner
  * 
  * @author METIVIER Nocolas
  * @version 0.0.1
@@ -63,7 +49,7 @@ public class Program {
 					break;
 
 				case "F":
-
+					AttendanceRegister.checkPresence(Student.studentsList);
 					break;
 
 				case "V":
